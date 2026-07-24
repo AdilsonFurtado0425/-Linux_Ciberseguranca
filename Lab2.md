@@ -6,6 +6,7 @@ Atuar  como analista forense para determinar a origem e o sucesso do ataque, com
 
 
 1)	💻  O IP do atacante identificado foi 10.128.160.228 
+
    
    
 <img width="1002" height="99" alt="image" src="https://github.com/user-attachments/assets/e00951a1-cb85-4792-840c-cb492c108e30" />

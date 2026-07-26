@@ -1,4 +1,4 @@
-<h1 align ="center">Linux_Ciberseguranca</h1>
+<h1 align ="center">Linux_Cibersegurança</h1>
 <p>Este módulo faz parte do percurso de Reskilling da Skodji Digital e tem como objetivo capacitar-vos para a segurança prática de sistemas Linux, com uma abordagem orientada a problemas reais de administração e defesa de infraestrutura.</p>
 
 <h1 align = "center" >Conhecimentos, aptidões e competências a desenvolvidos</h1>

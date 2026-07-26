@@ -11,5 +11,5 @@ R:Mostra que o Uncomplicated Firewall  está atualmente inativo
 <img width="980" height="832" alt="image" src="https://github.com/user-attachments/assets/9f839897-efea-4306-8182-fa2e89f4fbeb" />
 
 3)	Breve explicação da política aplicada no output apresentada no ponto 2.
-   <img width="406" height="532" alt="explicação_com_iptables_l_v" src="https://github.com/user-attachments/assets/e793907f-ec42-46c7-aee1-7752b4b79869" />
+   <img width="532" height="532" alt="explicação_com_iptables_l_v" src="https://github.com/user-attachments/assets/e793907f-ec42-46c7-aee1-7752b4b79869" />
 

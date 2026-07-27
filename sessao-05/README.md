@@ -1,6 +1,7 @@
 <h1 align ="center">Mini-relatório técnico.</h1>
 
-Analisando o resultado  Lynis 3.0.9 apresentado, é possível chegar a seguinte resultado.
+
+Analisando o resultado  do comando <u> sudo lynis audit system </u> apresentado, é possível chegar a seguinte resultado.
 
 <h1>1)	Hardening Score Inicial</h1>
 <p>No entanto, pela quantidade de verificações aprovadas e pelo número de sugestões (50) e apenas 1 Warning, estima-se que o sistema tenha um Hardening Score inicial entre 60 e 70 pontos.</p>

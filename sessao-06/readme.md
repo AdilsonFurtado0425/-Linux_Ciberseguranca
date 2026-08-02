@@ -15,7 +15,9 @@ Metodologia de Resposta (Roteiro de Ações Exigidas)
 <h1>Fase 1 — Identificação e Triagem</h1>
 
 Análise de Rede e Portas: identificar quais os portos e serviços ativos que estão expostos desnecessariamente.
+
 ss -tuln 
+
 <img width="992" height="726" alt="image" src="https://github.com/user-attachments/assets/ba92e31d-8657-4bdd-b598-86ecaadb5594" />
 
 Análise dos Principais Resultados do comando ss -tuln.
@@ -75,66 +77,51 @@ cat ~/.ssh/authorized_keys
 
 Fase 2 — Contenção
 
-Ativar a firewall UFW, bloqueando todas as portas que não sejam estritamente necessárias para o negócio
+<p>Ativar a firewall UFW, bloqueando todas as portas que não sejam estritamente necessárias para o negócio</p>
 
 <img width="938" height="108" alt="image" src="https://github.com/user-attachments/assets/70c70e18-866d-415d-81f6-a1041a343f18" />
 
 
-O comando executado alterou a política padrão do UFW (Uncomplicated Firewall) para o tráfego de entrada (incoming) para negado (deny). 
-Isso significa que, a partir de agora, qualquer conexão externa que tente entrar no seu servidor será bloqueada por padrão, devendo criar  regras específicas permitindo portas ou serviços essenciais.
+<p>O comando executado alterou a política padrão do UFW (Uncomplicated Firewall) para o tráfego de entrada (incoming) para negado (deny). 
+Isso significa que, a partir de agora, qualquer conexão externa que tente entrar no seu servidor será bloqueada por padrão, devendo criar  regras específicas permitindo portas ou serviços essenciais.</p>
+
+<img width="649" height="97" alt="image" src="https://github.com/user-attachments/assets/6c90e6e9-fc10-45aa-a9f2-6d9038c4b0da" />
 
 
+<img width="782" height="66" alt="image" src="https://github.com/user-attachments/assets/1b180010-1a66-4c03-9d67-8b00dc229fae" />
 
-
-
-
-
-
-Oservidor agora está com o tráfego de entrada bloqueado por padrão, mantendo abertas apenas as portas explicitamente permitidas o SSH na porta 22.
+<p>Oservidor agora está com o tráfego de entrada bloqueado por padrão, mantendo abertas apenas as portas explicitamente permitidas o SSH na porta 22.</p>
 
 Fase 3 — Enriquecimento / Remediação
-a)	Restringir Acesso por Firewall (UFW / iptables): Bloquear o acesso externo às portas 
-   sensíveis (445, 139, 137, 111, 53), permitindo-as apenas via VPN ou rede interna confiável.
 
-b)	Desativar Serviços Desnecessários: Desabilitar o suporte a NetBIOS/SMB caso a máquina 
-   não pertença a um domínio Windows ou não compartilhe arquivos na rede pública.
+<li>	Restringir Acesso por Firewall (UFW / iptables): Bloquear o acesso externo às portas 
+   sensíveis (445, 139, 137, 111, 53), permitindo-as apenas via VPN ou rede interna confiável.</li>
 
-c)	Endurecimento do SSH (Hardening): Desativar autenticação por senha no SSH, permitindo 
-   apenas chaves públicas, e alterar a porta padrão ou utilizar ferramentas como Fail2ban.
+<li>Desativar Serviços Desnecessários: Desabilitar o suporte a NetBIOS/SMB caso a máquina 
+   não pertença a um domínio Windows ou não compartilhe arquivos na rede pública.</li>
 
-d)	Auditoria de Aplicações: Verificar quais serviços estão associados às portas 7777, 
-   7778 e 8443 para garantir que possuem controle de acesso restrito.
+<li>	Endurecimento do SSH (Hardening): Desativar autenticação por senha no SSH, permitindo 
+   apenas chaves públicas, e alterar a porta padrão ou utilizar ferramentas como Fail2ban.</li>
 
-
-
-
-
-
-
-
-
-
-
-
-
+<li>	Auditoria de Aplicações: Verificar quais serviços estão associados às portas 7777, 
+   7778 e 8443 para garantir que possuem controle de acesso restrito.</li>
 
 
 output de ufw status verbose
 
-
-
-
-
-
+<img width="784" height="387" alt="image" src="https://github.com/user-attachments/assets/391f9a76-f6d2-4c65-9ecb-218914f5380f" />
 
 
 Resumo
-	8443/tcp e 8443/udp: ALLOW IN Anywhere (IPv4 e IPv6) — Tráfego permitido para porta 8443 (Nice DCV ou HTTPS alternativo).
-	443: ALLOW IN Anywhere (IPv4 e IPv6) — Tráfego web seguro padrão HTTPS.
-	80/tcp: ALLOW IN Anywhere (IPv4 e IPv6) — Tráfego web padrão HTTP.
-	22/tcp: ALLOW IN Anywhere (IPv4 e IPv6) — Acesso remoto via SSH.
+
+<li>8443/tcp e 8443/udp: ALLOW IN Anywhere (IPv4 e IPv6) — Tráfego permitido para porta 8443 (Nice DCV ou HTTPS alternativo).</li>
+<li>443: ALLOW IN Anywhere (IPv4 e IPv6) — Tráfego web seguro padrão HTTPS.</li>
+<li>80/tcp: ALLOW IN Anywhere (IPv4 e IPv6) — Tráfego web padrão HTTP.</li>
+<li>22/tcp: ALLOW IN Anywhere (IPv4 e IPv6) — Acesso remoto via SSH.</li>
 
 output de ufw status verbose
+<img width="1011" height="428" alt="image" src="https://github.com/user-attachments/assets/18fda0a8-5b23-4855-a5b3-71ee0371d39e" />
+
 
 •	Firewall Ativo: O UFW está ligado ("Status: active"), o que significa que o sistema não está otalmente exposto sem filtragem de pacotes.
 

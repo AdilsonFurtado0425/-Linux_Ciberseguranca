@@ -1,5 +1,6 @@
-Output de ufw status verbose
+<h1>Output de ufw status verbose</h1>
 
+<img width="1002" height="614" alt="image" src="https://github.com/user-attachments/assets/43d4ba1e-0112-47c4-aebe-8414f44fc7e1" />
 
 •	Firewall Ativo: O UFW está ligado ("Status: active"), o que significa que o sistema não está totalmente exposto sem filtragem de pacotes.
 

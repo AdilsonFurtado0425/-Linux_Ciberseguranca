@@ -1,0 +1,11 @@
+Configurações ativas do SSH (/etc/sshd_config):
+
+
+1.	PermitRootLogin no: Bloqueia o login direto do usuário robot via SSH.
+2.	PubkeyAuthentication yes: Permite a autenticação por chave pública.
+3.	PasswordAuthentication no: Desativa a autenticação por senha comum.
+4.	KbdInteractiveAuthentication no: Desativa autenticação interativa por teclado.
+5.	UsePAM yes: Utiliza os módulos de autenticação plugáveis (PAM).
+6.	X11Forwarding yes: Permite o redirecionamento de interface gráfica X11.
+7.	PrintMotd no: Desativa a exibição da mensagem do dia (MOTD) ao logar.
+8.	ubsystem sftp: Configura o subsistema para transferência segura de arquivos (SFTP).

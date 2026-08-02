@@ -1,51 +1,37 @@
 <h1>Laboratório — Sessão 6 (Desafio MiniCTF)</h1>
  
 Desafio Prático Integrador — Mini-CTF Defensivo Linux
+
 Cenário
-O servidor Ubuntu da empresa fictícia "Linux Agency" apresenta indícios de atividade suspeita e configurações severamente inseguras. A sua missão é auditar, conter os danos, aplicar as correções e documentar toda a intervenção — como se fosse chamado a responder a um incidente real.
+
+<p>O servidor Ubuntu da empresa fictícia "Linux Agency" apresenta indícios de atividade suspeita e configurações severamente inseguras. A sua missão é auditar, conter os danos, aplicar as correções e documentar toda a intervenção — como se fosse chamado a responder a um incidente real.</p>
+
 Ambiente Virtual
  
 •	TryHackMe — Linux Agency (gratuito): https://tryhackme.com/room/linuxagency
 
 Metodologia de Resposta (Roteiro de Ações Exigidas)
 
-Fase 1 — Identificação e Triagem
+<h1>Fase 1 — Identificação e Triagem</h1>
 
 Análise de Rede e Portas: identificar quais os portos e serviços ativos que estão expostos desnecessariamente.
 ss -tuln 
+<img width="992" height="726" alt="image" src="https://github.com/user-attachments/assets/ba92e31d-8657-4bdd-b598-86ecaadb5594" />
 
-Análise dos Principais Resultados do comando ss -tuln
+Análise dos Principais Resultados do comando ss -tuln.
 
-Porta	Protocolo	Endereço Local	Serviço Provável	Nível de Risco	Descrição da Vulnerabilidade / Exposição
-53	UDP/TCP	0.0.0.0 / [::]	DNS (Domain Name System)	Médio	Serviço DNS exposto publicamente; pode ser usado para amplificação de DDoS se aberto para redes externas.
-22	TCP	0.0.0.0 / [::]	SSH (Secure Shell)	Baixo	Acesso remoto SSH exposto em todas as interfaces. Recomenda-se uso de chaves SSH e restrição por firewall/fail2ban.
-139	TCP	0.0.0.0 / [::]	NetBIOS Session Service	Alto	Protocolo legado vulnerável a enumeração de usuários e ataques de relay (SMB/NetBIOS).
-445	TCP	0.0.0.0 / [::]	Microsoft-DS (SMB)	Crítico	Serviço SMB exposto na rede. Historicamente associado a graves vulnerabilidades de execução de código remoto (EternalBlue, etc.).
-111	UDP/TCP	127.0.0.1 / [::1] (Local)	RPCbind / rpcbind	Baixo	Vinculado apenas ao localhost, baixo risco de exposição externa direta.
-137	UDP	Múltiplos (0.0.0.0 / 172.x / 10.x)	NetBIOS Name Service	Alto	Serviço de resolução de nomes NetBIOS exposto em várias interfaces de rede, permitindo vazamento de informações.
-138	UDP	Múltiplos (0.0.0.0 / 172.x / 10.x)	NetBIOS Datagram Service	Alto	Tráfego NetBIOS Datagram aberto em interfaces de rede, permitindo spoofing e enumeração.
-323	UDP	127.0.0.1 / [::1]	Chrony (NTP)	Baixo	Serviço de sincronização de hora interno (localhost).
-8443	UDP/TCP	0.0.0.0 / [::]	HTTPS Alternativo / Proxy / WebApp	Médio	Serviço HTTPS alternativo aberto para todas as interfaces. Necessário auditar a aplicação rodando nesta porta.
-5433	TCP	127.0.0.1	PostgreSQL (Alt)	Baixo	Banco de dados restrito ao localhost.
-20640	TCP	127.0.0.1	Serviço Interno / Daemon	Baixo	Porta efêmera/interna vinculada exclusivamente ao localhost.
-7777	TCP	0.0.0.0 / [::]	Aplicação Customizada / Gestão	Médio	Porta não padronizada aberta em todas as interfaces. Risco de exposição de painéis de administração ou backdoors.
-7778	TCP	0.0.0.0 / [::]	Aplicação Customizada / Gestão	Médio	Porta adicional aberta em todas as interfaces, associada à porta 7777.
+<img  width="613" height="484" alt="resuldado ss tuln" src="https://github.com/user-attachments/assets/d9e87285-01d5-4627-a74e-a301795ac321" />
+
 
  Recomendações de Segurança
+ 
+ <img width="574" height="288" alt="recomendaçao segurança" src="https://github.com/user-attachments/assets/bde5c345-9118-4306-a2c2-69a1614a4f1f" />
 
-Categoria	Ação Recomendada	Impacto
-Serviços SMB/NetBIOS (445, 139, 137, 138)	Desativar o protocolo NetBIOS e restringir o acesso ao SMB (porta 445) apenas para redes confiáveis via firewall (UFW/iptables), ou desativar o serviço se não for necessário.	Elimina vetores de ataques de ransomware,
- enumeração e execução remota.
-Exposição de Portas Customizadas (7777, 7778)	Verificar quais aplicações estão rodando nestas portas. Se forem serviços internos, restringir o acesso para 127.0.0.1 ou utilizar VPN/Tunnel para acesso externo.	Reduz a superfície de ataque para aplicações
- desconhecidas ou não auditadas.
-Serviço DNS (Porta 53)	Garantir que o servidor DNS (como BIND ou systemd-resolved) não responda a consultas recursivas públicas para evitar ataques de amplificação DDoS.	Protege contra uso indevido da infraestrutura
- em ataques de negação de serviço.
-Hardening de SSH (Porta 22)	Desativar autenticação por senha, permitir apenas chaves SSH, alterar a porta padrão se viável, e configurar o Fail2ban contra ataques de força bruta.	Aumenta significativamente a segurança
-contra invasões via força bruta.
-Auditoria Geral de Firewall	Implementar uma política restritiva de firewall (ex: UFW default deny incoming), libertando  apenas os serviços essenciais para endereços IP autorizados.	Garante o princípio do menor privilégio na rede.
 
 nmap -sV localhost
- 
+
+ <img width="1031" height="361" alt="image" src="https://github.com/user-attachments/assets/c4caf86d-93ce-4097-9585-5bc026b08f8c" />
+
 
 ANÁLISE DETALHADA DAS PORTAS E SERVIÇOS EXPOSTOS
 - Porta 22/tcp (OpenSSH):
@@ -73,32 +59,25 @@ ANÁLISE DETALHADA DAS PORTAS E SERVIÇOS EXPOSTOS
   Serviço: NICE DCV (Remote Desktop / Streaming de Área de Trabalho)
  Risco Potencial: Solução de acesso remoto gráfico. Caso utilize certificados autoassinados, senhas fracas ou possua vulnerabilidades na versão do DCV.
 
-Auditoria de Contas: procurar por utilizadores com permissões excessivas, contas sem palavra-passe associada ou chaves públicas suspeitas em authorized_keys
+<h2>Auditoria de Contas: procurar por utilizadores com permissões excessivas, contas sem palavra-passe associada ou chaves públicas suspeitas em authorized_keys </h2>
 
 sudo cat /etc/shadow | awk -F':' '$2=="" {print $1}'
+
 Não retornou nenhum resultado, significa que não existem usuários no sistema com a senha vazia, o que é um bom  sinal de segurança.
 
 cat ~/.ssh/authorized_keys
+
 Lista de chaves públicas SSH (no formato ssh-rsa), encontradas dentro do arquivo  
 cat ~/.ssh/authorized_keys
 
-
-
-
-
-
-
-
-
-
-
-
-
+<img width="992" height="425" alt="image" src="https://github.com/user-attachments/assets/e41849ed-36df-4293-8fa7-0e6a693e216e" />
 
 
 Fase 2 — Contenção
 
 Ativar a firewall UFW, bloqueando todas as portas que não sejam estritamente necessárias para o negócio
+
+<img width="938" height="108" alt="image" src="https://github.com/user-attachments/assets/70c70e18-866d-415d-81f6-a1041a343f18" />
 
 
 O comando executado alterou a política padrão do UFW (Uncomplicated Firewall) para o tráfego de entrada (incoming) para negado (deny). 
